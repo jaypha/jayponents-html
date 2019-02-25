@@ -1,0 +1,14 @@
+{
+  "name": "jaypha/jayponents-html",
+  "description": "Jayponents for HTML documents",
+  "type": "library",
+  "license": "BSL-1.0",
+  "autoload" : { "psr-4": { "Jaypha\\Jayponents\\Html\\": "src/" } },
+  "authors": [ { "name": "Jason den Dulk", "email": "jason@jaypha.com.au" } ],
+  "require": {
+    "jaypha/jayponents":"*"
+  },    
+  "require-dev": {
+    "phpunit/phpunit": "^6"
+  }
+}
