@@ -11,13 +11,13 @@ Use Jayponents to create HTML elements.
 
 ## Requirements
 
-PHP v5.4.0 or greater.
+PHP v7.1.0 or greater.
 Jaypha/Jayponents
 
 ## Installation
 
 ```
-composer require jaypha/jayponents
+composer require jaypha/jayponents-html
 ```
 
 ## License

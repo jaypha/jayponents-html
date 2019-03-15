@@ -5,14 +5,10 @@
 
 namespace Jaypha\Jayponents\Html;
 
-class Document
+class Document extends Element
 {
   public $head; // Head
   public $body; // Element
-
-  public $attributes = [];
- 
-  public $currentForm;
 
   public $comment = null;
 
@@ -20,6 +16,7 @@ class Document
 
   function __construct(string $pageId = null)
   {
+    parent::__construct("html");
     $this->head = new Head();
     $this->body = new Element("body");
     $this->attributes["lang"] = "en";
@@ -31,26 +28,17 @@ class Document
 
   function display()
   {
-//    $body = $this->body->__toString();
-//    $head = $this->head->__toString();
-
     echo "<!DOCTYPE html>";
-    echo "<html ";
-    if (count($this->attributes)) {
-      foreach ($this->attributes as $k => $v) {
-        echo " $k";
-        if ($v !== null)
-          echo "='",htmlspecialchars($v, ENT_QUOTES|ENT_HTML5),"'";
-      }
-    }
-    echo ">";
+    parent::display();
+  }
 
+  function displayInner()
+  {
     if ($this->comment)
-      echo "<!-- $comment -->";
+      echo "<!-- $this->comment -->";
 
     $this->head->display();
     $this->body->display();
-    echo "</html>";
   }
 
   //-----------------------------------
@@ -72,10 +60,11 @@ class Document
       case "title":
         return $this->head->title;
       case "language":
-        return $this->lang;
-        break;
       case "lang":
+        return $this->attributes["lang"];
+        break;
       case "manifest":
+        trigger_error("HTML manifest is deprecated", E_USER_DEPRECATED);
         if (array_key_exists($p, $this->attributes))
           return $this->attributes[$p];
         else
@@ -96,10 +85,11 @@ class Document
         $this->head->title = $v;
         break;
       case "language":
+      case "lang":
         $this->attributes["lang"] = $v;
         break;
-      case "lang":
       case "manifest":
+        trigger_error("HTML manifest is deprecated", E_USER_DEPRECATED);
         $this->attributes[$p] = $v;
         break;
     }

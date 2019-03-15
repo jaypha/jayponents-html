@@ -84,6 +84,13 @@ function element(string $tagName, array $attributes)
 }
 
 //----------------------------------------------------------------------------
+
+function comment(string $comment)
+{
+  return "<!-- $comment -->";
+}
+
+//----------------------------------------------------------------------------
 // Copyright (C) 2017 Jaypha.
 // License: BSL-1.0
 // Author: Jason den Dulk
