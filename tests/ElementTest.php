@@ -38,6 +38,17 @@ class ElementTest extends TestCase
     $this->assertEquals($x, "<p class='some-class another-class' dig='mill&apos;bourne' mix id='filly' style='margin:2px;padding:3px;'></p>");
     $this->assertEquals($x->id, "filly");
   }
+
+  function testScript()
+  {
+    $x = new Element();
+    $s = $x->addScript();
+    $s->add("xxx");
+    $s2 = new Script();
+    $s2->nonce = "123";
+    $x->addScript($s2);
+    $this->assertEquals($x->__toString(), "<div></div><script>xxx</script><script nonce='123'></script>");
+  }
 }
 
 //----------------------------------------------------------------------------

@@ -23,6 +23,8 @@ class Element extends Component
   public $attributes = [];
   public $cssClasses = [];
 
+  private $scripts = [];
+
   function __construct(string $tagName = 'div')
   {
     $this->tagName = $tagName;
@@ -58,8 +60,20 @@ class Element extends Component
       parent::display();
       echo "</$this->tagName>";
     }
+    foreach ($this->scripts as $script)
+      $script->display();
   }
 
+  // Accept a script element that gets displayed after the subject
+  // element
+  function addScript(?Script $script=null)
+  {
+    if ($script == null)
+      $script = new Script();
+    $this->scripts[] = $script;
+    return $script;
+  }
+  
   //-----------------------------------
 
   function __get($p)

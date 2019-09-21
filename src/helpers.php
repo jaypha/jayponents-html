@@ -42,7 +42,12 @@ function link(string $link, string $label = null, bool $newPage = false)
 
 function javascript(string $script)
 {
-  return "<script type='text/javascript'>$script</script>";
+  return "<script>$script</script>";
+}
+
+function script(string $script, $mimeType = null)
+{
+  return "<script".($mimeType?" type='$mimeType'":"").">$script</script>";
 }
 
 //-----------------------------------------------------------------------------
@@ -63,7 +68,7 @@ function make_nb(string $src)
 
 //-----------------------------------------------------------------------------
 
-function element(string $tagName, array $attributes)
+function element(string $tagName, array $attributes, string $content = null)
 {
   $s = "<$tagName";
   foreach ($attributes as $n =>$v)
@@ -79,7 +84,7 @@ function element(string $tagName, array $attributes)
   }
   $s .= ">";
   if (!in_array($tagName, Element::VOID_ELEMENTS))
-    $s .= "</$tagName>";
+    $s .= "$content</$tagName>";
   return $s;
 }
 
