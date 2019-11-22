@@ -14,7 +14,7 @@ class HeadTest extends TestCase
   function testEmpty()
   {
     $x = new Head();
-    $this->assertEquals($x, "<head><title></title></head>");
+    $this->assertEquals("<head><title></title></head>", $x->__toString());
   }
 
   //---------------------------------------------
@@ -23,22 +23,10 @@ class HeadTest extends TestCase
   {
     $x = new Head();
     $x->title = "A Title";
-    $this->assertEquals($x, "<head><title>A Title</title></head>");
+    $this->assertEquals("<head><title>A Title</title></head>", $x->__toString());
   }
 
   //---------------------------------------------
-
-/*
-  function testCssOld()
-  {
-    $x = new Head();
-    $x->cssFiles[] = "style.css";
-    $x->cssFiles[] = [ "href" => "stiff.css", "min" => "max" ];
-    $x->cssText[] = ".s { margin: 2px; }";
-    $x->cssText[] = ".g { margin: 3px; }";
-    $this->assertEquals($x, "<head><title></title><link rel='stylesheet' href='style.css'><link rel='stylesheet' href='stiff.css' min='max'><style>.s { margin: 2px; }.g { margin: 3px; }</style></head>");
-  }
-*/
 
   function testCss()
   {
@@ -49,20 +37,10 @@ class HeadTest extends TestCase
     $style = $x->addStyleTag();
     $style->add(".s { margin: 2px; }");
     $style->add(".g { margin: 3px; }");
-    $this->assertEquals($x->__toString(), "<head><title></title><link rel='stylesheet' href='style.css'><link rel='stylesheet' href='stiff.css' title='Default'><style>.s { margin: 2px; }.g { margin: 3px; }</style></head>");
+    $this->assertEquals("<head><title></title><link rel='stylesheet' href='style.css'><link rel='stylesheet' href='stiff.css' title='Default'><style>.s { margin: 2px; }.g { margin: 3px; }</style></head>", $x->__toString());
   }
 
-/*
-  function testScriptOld()
-  {
-    $x = new Head();
-    $x->scriptFiles[] = "aoe.js";
-    $x->scriptFiles[] = [ "src"=>"min.js", "type"=>"text/javascript" ];
-    $x->scriptText[] = "var x='y';";
-    $x->scriptText[] = "tui();";
-    $this->assertEquals($x, "<head><title></title><script src='aoe.js'></script><script src='min.js' type='text/javascript'></script><script>var x='y';tui();</script></head>");
-  }
-*/
+  //---------------------------------------------
 
   function testScript()
   {
@@ -70,25 +48,36 @@ class HeadTest extends TestCase
     $x->addScriptTag("aoe.js");
     $x->addScriptTag("min.js", true);
     $src = $x->addScriptTag();
-    $src->attributes["nonce"] = "abc";
+    $src->nonce = "abc";
     $src->add("var x='y';");
     $src->add("tui();");
-    $this->assertEquals($x, "<head><title></title><script src='aoe.js'></script><script src='min.js' type='module'></script><script nonce='abc'>var x='y';tui();</script></head>");
+    $this->assertEquals("<head><title></title><script src='aoe.js'></script><script src='min.js' type='module'></script><script nonce='abc'>var x='y';tui();</script></head>", $x);
   }
+
+  //---------------------------------------------
 
   function testMetaTag()
   {
     $x = new Head();
     $x->addMetaTag("a", "b");
-    $this->assertEquals($x, "<head><title></title><meta name='a' content='b'></head>");
+    $this->assertEquals("<head><title></title><meta name='a' content='b'></head>", $x);
     $x->addMetaTag("fa", "be", "x");
-    $this->assertEquals($x, "<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'></head>");
+    $this->assertEquals("<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'></head>", $x);
     $x->addMetaTag("fab", "beq", null, "ax");
-    $this->assertEquals($x, "<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'><meta name='fab' content='beq' charset='ax'></head>");
+    $this->assertEquals("<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'><meta name='fab' content='beq' charset='ax'></head>", $x);
     $mt = $x->addMetaTag();
     $mt->attributes["content"] = "bequ";
     $mt->attributes["charset"] = "tax";
-    $this->assertEquals($x, "<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'><meta name='fab' content='beq' charset='ax'><meta content='bequ' charset='tax'></head>");
+    $this->assertEquals("<head><title></title><meta name='a' content='b'><meta name='fa' content='be' httpEquiv='x'><meta name='fab' content='beq' charset='ax'><meta content='bequ' charset='tax'></head>", $x);
+  }
+
+  //---------------------------------------------
+
+  function testBase()
+  {
+    $x = new Head();
+    $x->addBaseTag("xxx", "yyy");
+    $this->assertEquals("<head><title></title><base href='xxx' target='yyy'></head>", $x->__toString());
   }
 }
 

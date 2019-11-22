@@ -51,9 +51,9 @@ class Head extends Component
     return $x;
   }
 
-  function addBaseElement($href = null, $target = null)
+  function addBaseTag($href = null, $target = null)
   {
-    $x = new Element("script");
+    $x = new Element("base");
     $this->add($x);
     if ($href)
       $x->attributes["href"] = $href;
@@ -62,13 +62,19 @@ class Head extends Component
     return $x;
   }
 
+  // This function is deprecated. Use addBaseTag instead.
+  function addBaseElement($href = null, $target = null)
+  {
+    return $this->addBaseTag($href, $target);
+  }
+
   function addScriptTag($src = null, $isModule = false)
   {
-    $x = new Element("script");
+    $x = new Script();
     if ($src)
-      $x->attributes["src"] = $src;
+      $x->src = $src;
     if ($isModule)
-      $x->attributes["type"] = "module";
+      $x->type = "module";
     $this->add($x);
     return $x;
   }

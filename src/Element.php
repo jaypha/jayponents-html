@@ -9,7 +9,7 @@ namespace Jaypha\Jayponents\Html;
 
 use Jaypha\Jayponents\Component;
 
-require_once "helpers.php";
+require_once __DIR__."/helpers.php";
 
 class Element extends Component
 {
