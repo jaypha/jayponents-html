@@ -31,8 +31,11 @@ class ElementTest extends TestCase
     $x->attributes["absent"] = false;
     $x->tagName = "p";
     $x->id = "filly";
-    $x->cssClasses[] = "some-class";
-    $x->cssClasses[] = "another-class";
+    $x->cssClasses->add("some-class");
+    $x->cssClasses->add("some-class");
+    $x->cssClasses->add("wrong-class");
+    $x->cssClasses->add("another-class");
+    $x->cssClasses->remove("wrong-class");
     $x->cssStyles["margin"] = "2px";
     $x->cssStyles["padding"] = "3px";
     $this->assertEquals($x, "<p class='some-class another-class' dig='mill&apos;bourne' mix id='filly' style='margin:2px;padding:3px;'></p>");

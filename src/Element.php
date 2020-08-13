@@ -11,6 +11,15 @@ use Jaypha\Jayponents\Component;
 
 require_once __DIR__."/helpers.php";
 
+// This is a transitionary class. Eventually it will be replaced with Ds\Set.
+// Adding new classes via [] is deprecated. Use add() instead.
+
+class cssSet extends \ArrayObject
+{
+  function add($v) { if (!in_array($v, $this->getArrayCopy())) $this->append($v); }
+  function remove($v) { $key = array_search($v, $this->getArrayCopy()); if ($key !== false) $this->offsetUnset($key); }
+}
+
 class Element extends Component
 {
   const VOID_ELEMENTS = [
@@ -21,13 +30,14 @@ class Element extends Component
   public $tagName = "div";
   public $cssStyles = [];
   public $attributes = [];
-  public $cssClasses = [];
+  public $cssClasses;
 
   private $scripts = [];
 
   function __construct(string $tagName = 'div')
   {
     $this->tagName = $tagName;
+    $this->cssClasses = new cssSet();
   }
 
   //-----------------------------------
@@ -38,7 +48,7 @@ class Element extends Component
     assert(!array_key_exists("class", $this->attributes));
     echo "<$this->tagName";
     if (count($this->cssClasses))
-      echo " class='",implode(" ",$this->cssClasses),"'";
+      echo " class='",implode(" ",$this->cssClasses->getArrayCopy()),"'";
     if (count($this->attributes)) {
       foreach ($this->attributes as $k => $v) {
         if ($v !== false && $v !== null)
