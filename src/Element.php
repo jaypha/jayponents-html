@@ -16,7 +16,11 @@ require_once __DIR__."/helpers.php";
 
 class cssSet extends \ArrayObject
 {
-  function add($v) { if (!in_array($v, $this->getArrayCopy())) $this->append($v); }
+  function add() {
+    $vars = func_get_args();
+    foreach ($vars as $v)
+      if (!in_array($v, $this->getArrayCopy())) $this->append($v);
+  }
   function remove($v) { $key = array_search($v, $this->getArrayCopy()); if ($key !== false) $this->offsetUnset($key); }
 }
 

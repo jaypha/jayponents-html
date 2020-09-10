@@ -33,8 +33,7 @@ class ElementTest extends TestCase
     $x->id = "filly";
     $x->cssClasses->add("some-class");
     $x->cssClasses->add("some-class");
-    $x->cssClasses->add("wrong-class");
-    $x->cssClasses->add("another-class");
+    $x->cssClasses->add("wrong-class","another-class");
     $x->cssClasses->remove("wrong-class");
     $x->cssStyles["margin"] = "2px";
     $x->cssStyles["padding"] = "3px";
